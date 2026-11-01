@@ -58,7 +58,7 @@ export function matchLanguage(locales: readonly string[]): string {
     if (l.startsWith('zh')) return /tw|hk|mo|hant/.test(l) ? 'zh-TW' : 'zh';
     if (l.startsWith('nb') || l.startsWith('nn')) return 'no';
     if (l.startsWith('tl')) return 'fil';
-    const base = l.split('-')[0];
+    const base = l.split('-')[0] ?? '';
     if (dict[base]) return base;
   }
   return 'en';
