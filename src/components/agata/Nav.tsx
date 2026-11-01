@@ -7,11 +7,11 @@ import { useTheme } from "./theme";
 import { SearchDialog } from "./SearchDialog";
 
 const links = [
-  { to: "/discover", label: "Discover" },
-  { to: "/scripts", label: "Scripts" },
-  { to: "/vfx", label: "VFX" },
-  { to: "/models", label: "3D Models" },
-  { to: "/resources", label: "Resources" },
+  { to: "discover", label: "Discover" },
+  { to: "scripts", label: "Scripts" },
+  { to: "vfx", label: "VFX" },
+  { to: "models", label: "3D Models" },
+  { to: "resources", label: "Resources" },
 ] as const;
 
 function ThemeToggle() {
@@ -70,7 +70,7 @@ export function Nav() {
             {links.map((l) => (
               <li key={l.to}>
                 <Link
-                  to={l.to}
+                  to="/$category" params={{ category: l.to }}
                   className="rounded-full px-3.5 py-1.5 text-[13px] text-foreground/65 transition-colors hover:text-foreground"
                   activeProps={{ className: "!text-foreground bg-foreground/[0.06]" }}
                 >
@@ -119,7 +119,7 @@ export function Nav() {
             >
               {links.map((l) => (
                 <motion.li key={l.to} variants={{ hidden: { opacity: 0, y: 12 }, show: { opacity: 1, y: 0 } }}>
-                  <Link to={l.to} className="block py-2 text-3xl font-medium tracking-tight">
+                  <Link to="/$category" params={{ category: l.to }} className="block py-2 text-3xl font-medium tracking-tight">
                     {l.label}
                   </Link>
                 </motion.li>

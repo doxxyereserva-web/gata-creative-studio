@@ -59,13 +59,13 @@ function Hero() {
           className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
         >
           <Link
-            to="/discover"
+            to="/$category" params={{ category: "discover" }}
             className="group inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3.5 text-sm font-medium text-primary-foreground transition-transform active:scale-[0.97]"
           >
             Explore Ágata
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" strokeWidth={1.8} />
           </Link>
-          <Link to="/resources" className="rounded-full px-6 py-3.5 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
+          <Link to="/$category" params={{ category: "resources" }} className="rounded-full px-6 py-3.5 text-sm font-medium text-foreground/80 transition-colors hover:text-foreground">
             Discover resources
           </Link>
         </motion.div>
@@ -234,7 +234,7 @@ function Latest() {
           <Eyebrow>03 — Recently added</Eyebrow>
           <h2 className="mt-4 text-[clamp(1.75rem,4vw,2.75rem)] font-semibold tracking-[-0.035em]">Fresh from the studio.</h2>
         </div>
-        <Link to="/discover" className="hidden text-sm text-muted-foreground transition-colors hover:text-foreground sm:block">
+        <Link to="/$category" params={{ category: "discover" }} className="hidden text-sm text-muted-foreground transition-colors hover:text-foreground sm:block">
           View all
         </Link>
       </Reveal>
