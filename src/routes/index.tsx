@@ -56,7 +56,7 @@ function Home() {
       <h2 className="section-title max-w-lg">Be there when it opens.</h2>
       <div className="flex flex-wrap gap-3">
         <Button onClick={agata.access} className="h-12 rounded-full bg-hero-foreground px-7 text-hero-background hover:bg-hero-foreground/90">{t('cta')} <ArrowRight /></Button>
-        <Button asChild variant="glass" size="lg" className="rounded-full px-6"><Link to="/projects">{t('projects')}</Link></Button>
+        <Button asChild variant="glass" size="lg" className="h-12 rounded-full px-6"><Link to="/projects">{t('projects')}</Link></Button>
       </div>
     </Reveal></section>
     <Footer />
