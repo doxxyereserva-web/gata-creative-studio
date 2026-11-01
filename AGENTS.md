@@ -10,5 +10,6 @@
 <!-- LOVABLE:END -->
 
 - Shared Ágata interactions live in a root-mounted experience provider so navigation, search, previews, and mascot assistance share state across preserved routes.
-- Keep the legacy resource records intact but do not display unverified marketplace values; bundled sample imagery is shown as collection previews.
+- No catalog or sample content is shown until real content exists; pages describe platform structure (projects, workspaces) only.
+- UI copy is localised via the root LanguageProvider (src/lib/i18n.tsx), auto-detected from browser locale; add keys there for every language row.
 - Use semantic mineral and hero-surface tokens in the global stylesheet for independently designed light and dark themes.

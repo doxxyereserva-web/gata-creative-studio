@@ -10,18 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as CategoryRouteImport } from './routes/$category'
 import { Route as ProjectsRouteImport } from './routes/projects'
 import { Route as WorkspacesRouteImport } from './routes/workspaces'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CategoryRoute = CategoryRouteImport.update({
-  id: '/$category',
-  path: '/$category',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProjectsRoute = ProjectsRouteImport.update({
@@ -37,34 +31,30 @@ const WorkspacesRoute = WorkspacesRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/$category': typeof CategoryRoute
   '/projects': typeof ProjectsRoute
   '/workspaces': typeof WorkspacesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/$category': typeof CategoryRoute
   '/projects': typeof ProjectsRoute
   '/workspaces': typeof WorkspacesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/$category': typeof CategoryRoute
   '/projects': typeof ProjectsRoute
   '/workspaces': typeof WorkspacesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/$category' | '/projects' | '/workspaces'
+  fullPaths: '/' | '/projects' | '/workspaces'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/$category' | '/projects' | '/workspaces'
-  id: '__root__' | '/' | '/$category' | '/projects' | '/workspaces'
+  to: '/' | '/projects' | '/workspaces'
+  id: '__root__' | '/' | '/projects' | '/workspaces'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CategoryRoute: typeof CategoryRoute
   ProjectsRoute: typeof ProjectsRoute
   WorkspacesRoute: typeof WorkspacesRoute
 }
@@ -76,13 +66,6 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/$category': {
-      id: '/$category'
-      path: '/$category'
-      fullPath: '/$category'
-      preLoaderRoute: typeof CategoryRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/projects': {
@@ -104,7 +87,6 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CategoryRoute: CategoryRoute,
   ProjectsRoute: ProjectsRoute,
   WorkspacesRoute: WorkspacesRoute,
 }
