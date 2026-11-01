@@ -14,6 +14,8 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { ThemeProvider } from "@/components/agata/theme";
 import { Nav } from "@/components/agata/Nav";
+import { AgataExperience } from "@/components/agata/AgataExperience";
+import { MotionConfig } from "framer-motion";
 
 function NotFoundComponent() {
   return (
@@ -107,8 +109,12 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider>
+        <MotionConfig reducedMotion="user">
+        <AgataExperience>
         <Nav />
         <Outlet />
+        </AgataExperience>
+        </MotionConfig>
       </ThemeProvider>
     </QueryClientProvider>
   );
