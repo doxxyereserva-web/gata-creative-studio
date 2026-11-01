@@ -19,6 +19,8 @@ import { Route as AuthenticatedDashboardRouteImport } from './routes/_authentica
 import { Route as AuthenticatedDashboardIndexRouteImport } from './routes/_authenticated/dashboard.index'
 import { Route as AuthenticatedDashboardCreationsRouteImport } from './routes/_authenticated/dashboard.creations'
 import { Route as AuthenticatedDashboardProfileRouteImport } from './routes/_authenticated/dashboard.profile'
+import { Route as AuthenticatedDashboardWorkspacesIndexRouteImport } from './routes/_authenticated/dashboard.workspaces.index'
+import { Route as AuthenticatedDashboardWorkspacesIdRouteImport } from './routes/_authenticated/dashboard.workspaces.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -72,6 +74,18 @@ const AuthenticatedDashboardProfileRoute =
     path: '/profile',
     getParentRoute: () => AuthenticatedDashboardRoute,
   } as any)
+const AuthenticatedDashboardWorkspacesIndexRoute =
+  AuthenticatedDashboardWorkspacesIndexRouteImport.update({
+    id: '/workspaces/',
+    path: '/workspaces/',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
+const AuthenticatedDashboardWorkspacesIdRoute =
+  AuthenticatedDashboardWorkspacesIdRouteImport.update({
+    id: '/workspaces/$id',
+    path: '/workspaces/$id',
+    getParentRoute: () => AuthenticatedDashboardRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -83,6 +97,8 @@ export interface FileRoutesByFullPath {
   '/dashboard/creations': typeof AuthenticatedDashboardCreationsRoute
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/workspaces/$id': typeof AuthenticatedDashboardWorkspacesIdRoute
+  '/dashboard/workspaces/': typeof AuthenticatedDashboardWorkspacesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -93,6 +109,8 @@ export interface FileRoutesByTo {
   '/dashboard/creations': typeof AuthenticatedDashboardCreationsRoute
   '/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/dashboard': typeof AuthenticatedDashboardIndexRoute
+  '/dashboard/workspaces/$id': typeof AuthenticatedDashboardWorkspacesIdRoute
+  '/dashboard/workspaces': typeof AuthenticatedDashboardWorkspacesIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -106,6 +124,8 @@ export interface FileRoutesById {
   '/_authenticated/dashboard/creations': typeof AuthenticatedDashboardCreationsRoute
   '/_authenticated/dashboard/profile': typeof AuthenticatedDashboardProfileRoute
   '/_authenticated/dashboard/': typeof AuthenticatedDashboardIndexRoute
+  '/_authenticated/dashboard/workspaces/$id': typeof AuthenticatedDashboardWorkspacesIdRoute
+  '/_authenticated/dashboard/workspaces/': typeof AuthenticatedDashboardWorkspacesIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -119,6 +139,8 @@ export interface FileRouteTypes {
     | '/dashboard/creations'
     | '/dashboard/profile'
     | '/dashboard/'
+    | '/dashboard/workspaces/$id'
+    | '/dashboard/workspaces/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -129,6 +151,8 @@ export interface FileRouteTypes {
     | '/dashboard/creations'
     | '/dashboard/profile'
     | '/dashboard'
+    | '/dashboard/workspaces/$id'
+    | '/dashboard/workspaces'
   id:
     | '__root__'
     | '/'
@@ -141,6 +165,8 @@ export interface FileRouteTypes {
     | '/_authenticated/dashboard/creations'
     | '/_authenticated/dashboard/profile'
     | '/_authenticated/dashboard/'
+    | '/_authenticated/dashboard/workspaces/$id'
+    | '/_authenticated/dashboard/workspaces/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -224,6 +250,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedDashboardProfileRouteImport
       parentRoute: typeof AuthenticatedDashboardRoute
     }
+    '/_authenticated/dashboard/workspaces/': {
+      id: '/_authenticated/dashboard/workspaces/'
+      path: '/workspaces'
+      fullPath: '/dashboard/workspaces/'
+      preLoaderRoute: typeof AuthenticatedDashboardWorkspacesIndexRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
+    '/_authenticated/dashboard/workspaces/$id': {
+      id: '/_authenticated/dashboard/workspaces/$id'
+      path: '/workspaces/$id'
+      fullPath: '/dashboard/workspaces/$id'
+      preLoaderRoute: typeof AuthenticatedDashboardWorkspacesIdRouteImport
+      parentRoute: typeof AuthenticatedDashboardRoute
+    }
   }
 }
 
@@ -231,6 +271,8 @@ interface AuthenticatedDashboardRouteChildren {
   AuthenticatedDashboardCreationsRoute: typeof AuthenticatedDashboardCreationsRoute
   AuthenticatedDashboardProfileRoute: typeof AuthenticatedDashboardProfileRoute
   AuthenticatedDashboardIndexRoute: typeof AuthenticatedDashboardIndexRoute
+  AuthenticatedDashboardWorkspacesIdRoute: typeof AuthenticatedDashboardWorkspacesIdRoute
+  AuthenticatedDashboardWorkspacesIndexRoute: typeof AuthenticatedDashboardWorkspacesIndexRoute
 }
 
 const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
@@ -238,6 +280,10 @@ const AuthenticatedDashboardRouteChildren: AuthenticatedDashboardRouteChildren =
     AuthenticatedDashboardCreationsRoute: AuthenticatedDashboardCreationsRoute,
     AuthenticatedDashboardProfileRoute: AuthenticatedDashboardProfileRoute,
     AuthenticatedDashboardIndexRoute: AuthenticatedDashboardIndexRoute,
+    AuthenticatedDashboardWorkspacesIdRoute:
+      AuthenticatedDashboardWorkspacesIdRoute,
+    AuthenticatedDashboardWorkspacesIndexRoute:
+      AuthenticatedDashboardWorkspacesIndexRoute,
   }
 
 const AuthenticatedDashboardRouteWithChildren =
