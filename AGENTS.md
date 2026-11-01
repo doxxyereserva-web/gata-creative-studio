@@ -13,3 +13,4 @@
 - No catalog or sample content is shown until real content exists; pages describe platform structure (projects, workspaces) only.
 - UI copy is localised via the root LanguageProvider (src/lib/i18n.tsx), auto-detected from browser locale; add keys there for every language row.
 - Use semantic mineral and hero-surface tokens in the global stylesheet for independently designed light and dark themes.
+- Glass effects are implemented in CSS (the `liquid`/`liquid-hover` utilities in src/styles.css), not via expo-glass-effect, which renders a native iOS view and cannot run in this web app.
