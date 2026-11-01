@@ -48,7 +48,7 @@ const rows: Row[] = [
 
 export const languages = rows.map(([code, name]) => ({ code, name }));
 const keys: Key[] = ['projects','workspaces','mascot','access','eyebrow','title1','title2','sub','cta','soon'];
-const dict = Object.fromEntries(rows.map(([code, , ...v]) => [code, Object.fromEntries(keys.map((k, i) => [k, v[i]])) as Record<Key, string>]));
+const dict: Record<string, Record<Key, string>> & { en: Record<Key, string> } = Object.fromEntries(rows.map(([code, , ...v]) => [code, Object.fromEntries(keys.map((k, i) => [k, v[i]])) as Record<Key, string>])) as never;
 const rtl = new Set(['ar', 'he', 'fa', 'ur']);
 
 /** Picks the best supported language for a list of browser locales (e.g. navigator.languages). */
@@ -58,7 +58,7 @@ export function matchLanguage(locales: readonly string[]): string {
     if (l.startsWith('zh')) return /tw|hk|mo|hant/.test(l) ? 'zh-TW' : 'zh';
     if (l.startsWith('nb') || l.startsWith('nn')) return 'no';
     if (l.startsWith('tl')) return 'fil';
-    const base = l.split('-')[0];
+    const base = l.split('-')[0] ?? '';
     if (dict[base]) return base;
   }
   return 'en';
