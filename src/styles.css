@@ -96,6 +96,30 @@
   box-shadow: var(--shadow-float);
 }
 
+/* Liquid glass: bars and buttons only. */
+@utility liquid {
+  position: relative;
+  isolation: isolate;
+  background: var(--liquid-fill);
+  backdrop-filter: blur(var(--liquid-blur)) saturate(190%) brightness(var(--liquid-bright));
+  border: 1px solid var(--liquid-edge);
+  box-shadow: var(--liquid-shadow);
+  transition: background .25s ease, box-shadow .25s ease, border-color .25s ease;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    background: var(--liquid-sheen);
+    pointer-events: none;
+  }
+}
+
+@utility liquid-hover {
+  &:hover { background: var(--liquid-fill-hover); }
+}
+
 @utility text-balance {
   text-wrap: balance;
 }
