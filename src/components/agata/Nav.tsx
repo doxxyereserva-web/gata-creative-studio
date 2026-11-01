@@ -1,12 +1,35 @@
 import { Link } from '@tanstack/react-router';
 import { useState } from 'react';
-import { Menu, Moon, Search, Sun, UserRound, X } from 'lucide-react';
+import { Globe, Menu, Moon, Sun, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { languages, useI18n } from '@/lib/i18n';
 import { Wordmark } from './Logo';
 import { useTheme } from './theme';
 import { useAgata } from './AgataExperience';
-const links = [{ to: 'discover', label: 'Discover' }, { to: 'scripts', label: 'Scripts' }, { to: 'vfx', label: 'VFX' }, { to: 'models', label: '3D Models' }, { to: 'resources', label: 'Development Tools' }];
+
+export function LanguageSelect({ className = '' }: { className?: string }) {
+  const { lang, setLang } = useI18n();
+  return <label className={`relative flex items-center ${className}`}><Globe className="pointer-events-none absolute start-3 size-4 text-muted-foreground" /><span className="sr-only">Language</span>
+    <select value={lang} onChange={e => setLang(e.target.value)} className="h-9 appearance-none rounded-full bg-transparent ps-9 pe-3 text-xs text-muted-foreground outline-none hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring">
+      {languages.map(l => <option key={l.code} value={l.code}>{l.name}</option>)}
+    </select></label>;
+}
+
 export function Nav() {
- const [open, setOpen] = useState(false); const { theme, toggle } = useTheme(); const agata = useAgata();
- return <><header className="fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-6 sm:pt-5"><nav className="glass mx-auto flex h-16 max-w-[1240px] items-center justify-between rounded-full px-4 sm:px-6"><Link to="/" aria-label="Ágata home" onClick={() => setOpen(false)}><Wordmark /></Link><div className="hidden items-center gap-1 lg:flex">{links.map(l => <Button asChild variant="ghost" key={l.to} className="rounded-full text-xs text-muted-foreground"><Link to="/$category" params={{ category: l.to }} activeProps={{ className: 'bg-accent text-foreground' }}>{l.label}</Link></Button>)}</div><div className="flex items-center gap-1"><Button variant="ghost" size="icon" className="rounded-full" aria-label="Search" title="Search" onClick={agata.search}><Search /></Button><Button variant="ghost" size="icon" className="rounded-full" onClick={toggle} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} title="Switch theme">{theme === 'dark' ? <Sun /> : <Moon />}</Button><Button variant="outline" onClick={agata.account} className="ml-2 hidden rounded-full border-foreground/15 bg-transparent px-5 text-xs sm:inline-flex">Sign in <UserRound /></Button><Button variant="ghost" size="icon" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} className="rounded-full lg:hidden" onClick={() => setOpen(v => !v)}>{open ? <X /> : <Menu />}</Button></div></nav></header>{open && <div className="fixed inset-0 z-30 bg-background/95 px-7 pt-28 backdrop-blur-xl lg:hidden"><div className="mx-auto max-w-xl">{links.map((l,i) => <Link key={l.to} to="/$category" params={{ category:l.to }} onClick={() => setOpen(false)} className="flex items-center justify-between border-b py-5 text-2xl"><span>{l.label}</span><span className="font-mono text-xs text-mineral">0{i+1}</span></Link>)}<Button className="mt-8 rounded-full" onClick={() => { setOpen(false); agata.account(); }}>Sign in <UserRound /></Button></div></div>}</>;
+  const [open, setOpen] = useState(false); const { theme, toggle } = useTheme(); const agata = useAgata(); const { t } = useI18n();
+  const links = [{ to: '/projects' as const, label: t('projects') }, { to: '/workspaces' as const, label: t('workspaces') }];
+  return <><header className="fixed inset-x-0 top-0 z-40 px-3 pt-3 sm:px-6 sm:pt-5"><nav className="glass mx-auto flex h-16 max-w-[1240px] items-center justify-between rounded-full px-4 sm:px-6">
+    <Link to="/" aria-label="Ágata home" onClick={() => setOpen(false)}><Wordmark /></Link>
+    <div className="hidden items-center gap-1 md:flex">{links.map(l => <Button asChild variant="ghost" key={l.to} className="rounded-full text-xs text-muted-foreground"><Link to={l.to} activeProps={{ className: 'bg-accent text-foreground' }}>{l.label}</Link></Button>)}</div>
+    <div className="flex items-center gap-1">
+      <LanguageSelect className="hidden sm:flex" />
+      <Button variant="ghost" size="icon" className="rounded-full" onClick={toggle} aria-label={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`} title="Switch theme">{theme === 'dark' ? <Sun /> : <Moon />}</Button>
+      <Button onClick={agata.access} className="ml-1 hidden rounded-full px-5 text-xs sm:inline-flex">{t('access')}</Button>
+      <Button variant="ghost" size="icon" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} className="rounded-full md:hidden" onClick={() => setOpen(v => !v)}>{open ? <X /> : <Menu />}</Button>
+    </div></nav></header>
+    {open && <div className="fixed inset-0 z-30 bg-background/95 px-7 pt-28 backdrop-blur-xl md:hidden"><div className="mx-auto max-w-xl">
+      {links.map((l, i) => <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className="flex items-center justify-between border-b py-5 text-2xl"><span>{l.label}</span><span className="font-mono text-xs text-mineral">0{i + 1}</span></Link>)}
+      <LanguageSelect className="mt-6" />
+      <Button className="mt-6 rounded-full" onClick={() => { setOpen(false); agata.access(); }}>{t('access')}</Button>
+    </div></div>}</>;
 }
