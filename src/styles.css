@@ -204,3 +204,17 @@
 .mascot-tile { background: var(--collection-surface); border: 1px solid var(--border); }
 .companion-bubble { animation: agata-float 5s ease-in-out infinite; }
 @keyframes agata-float { 50% { transform: translateY(-4px); } }
+:root {
+  --hero-background: oklch(0.985 0.003 300);
+  --hero-foreground: oklch(0.19 0.012 295);
+  --hero-muted: oklch(0.48 0.018 295);
+  --hero-shade: linear-gradient(90deg, var(--hero-background) 0%, var(--hero-background) 30%, transparent 70%);
+}
+.dark {
+  --hero-background: oklch(0.11 0.01 295);
+  --hero-foreground: oklch(0.98 0.003 295);
+  --hero-muted: oklch(0.77 0.022 300);
+  --hero-shade: linear-gradient(90deg, var(--hero-background) 0%, var(--hero-background) 30%, transparent 75%);
+}
+:root .hero-mascot { mix-blend-mode: multiply; }
+.dark .hero-mascot { mix-blend-mode: normal; filter: brightness(.82); }

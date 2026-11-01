@@ -28,7 +28,7 @@ export function Nav() {
       <Button variant="ghost" size="icon" aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open} className="rounded-full md:hidden" onClick={() => setOpen(v => !v)}>{open ? <X /> : <Menu />}</Button>
     </div></nav></header>
     {open && <div className="fixed inset-0 z-30 bg-background/95 px-7 pt-28 backdrop-blur-xl md:hidden"><div className="mx-auto max-w-xl">
-      {links.map((l, i) => <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className="flex items-center justify-between border-b py-5 text-2xl"><span>{l.label}</span><span className="font-mono text-xs text-mineral">0{i + 1}</span></Link>)}
+      {links.map(l => <Link key={l.to} to={l.to} onClick={() => setOpen(false)} className="flex items-center justify-between border-b py-5 text-2xl"><span>{l.label}</span><span /></Link>)}
       <LanguageSelect className="mt-6" />
       <Button className="mt-6 rounded-full" onClick={() => { setOpen(false); agata.access(); }}>{t('access')}</Button>
     </div></div>}</>;
