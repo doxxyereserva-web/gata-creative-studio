@@ -38,7 +38,7 @@ const filters = ["All", "Free", "Premium"] as const;
 
 function CategoryPage() {
   const { slug } = Route.useLoaderData();
-  const page = pages[slug];
+  const page = pages[slug]!;
   const [filter, setFilter] = useState<(typeof filters)[number]>("All");
   const base = slug === "discover" ? resources : resources.filter((r) => r.category === slug);
   const list = base.filter((r) => (filter === "All" ? true : filter === "Free" ? r.price === null : r.price !== null));
