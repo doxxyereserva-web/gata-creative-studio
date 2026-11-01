@@ -48,7 +48,7 @@ const rows: Row[] = [
 
 export const languages = rows.map(([code, name]) => ({ code, name }));
 const keys: Key[] = ['projects','workspaces','mascot','access','eyebrow','title1','title2','sub','cta','soon'];
-const dict = Object.fromEntries(rows.map(([code, , ...v]) => [code, Object.fromEntries(keys.map((k, i) => [k, v[i]])) as Record<Key, string>]));
+const dict: Record<string, Record<Key, string>> & { en: Record<Key, string> } = Object.fromEntries(rows.map(([code, , ...v]) => [code, Object.fromEntries(keys.map((k, i) => [k, v[i]])) as Record<Key, string>])) as never;
 const rtl = new Set(['ar', 'he', 'fa', 'ur']);
 
 /** Picks the best supported language for a list of browser locales (e.g. navigator.languages). */
