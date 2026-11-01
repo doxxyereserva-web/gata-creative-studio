@@ -250,7 +250,7 @@
   --liquid-blur: 22px;
   --liquid-bright: 1.05;
   --liquid-edge: oklch(0.4 0.02 300 / 0.16);
-  --liquid-sheen: linear-gradient(178deg, oklch(1 0 0 / 0.72) 0%, oklch(1 0 0 / 0.14) 38%, oklch(1 0 0 / 0) 58%, oklch(0.45 0.03 300 / 0.07) 100%);
+  --liquid-sheen: linear-gradient(178deg, oklch(1 0 0 / 0.72) 0%, oklch(1 0 0 / 0.14) 38%, oklch(1 0 0 / 0) 58%, oklch(0.45 0.03 300 / 0.07) 100%), radial-gradient(120% 140% at 8% 0%, oklch(1 0 0 / 0.5) 0%, oklch(1 0 0 / 0) 55%);
   --liquid-shadow: inset 0 1px 0 0 oklch(1 0 0 / 0.85), inset 0 -1px 0 0 oklch(0.4 0.02 300 / 0.09), 0 1px 2px oklch(0.25 0.02 300 / 0.07), 0 12px 32px -14px oklch(0.25 0.02 300 / 0.24);
 }
 .dark {
