@@ -33,7 +33,7 @@ function Home() {
           <p className="mt-6 max-w-sm text-base leading-relaxed text-hero-muted">{t('sub')}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button onClick={agata.access} className="h-12 rounded-full bg-hero-foreground px-6 text-hero-background hover:bg-hero-foreground/90">{t('cta')} <ArrowRight /></Button>
-            <Button asChild variant="ghost" className="h-12 rounded-full px-6 text-hero-foreground hover:bg-hero-foreground/10 hover:text-hero-foreground"><Link to="/projects">{t('projects')}</Link></Button>
+            <Button asChild variant="glass" size="lg" className="h-12 rounded-full px-6"><Link to="/projects">{t('projects')}</Link></Button>
           </div>
         </motion.div>
       </div>
@@ -54,7 +54,10 @@ function Home() {
 
     <section className="section-shell py-32"><Reveal className="flex flex-col items-start gap-8 sm:flex-row sm:items-end sm:justify-between">
       <h2 className="section-title max-w-lg">Be there when it opens.</h2>
-      <Button onClick={agata.access} className="h-12 rounded-full px-7">{t('cta')} <ArrowRight /></Button>
+      <div className="flex flex-wrap gap-3">
+        <Button onClick={agata.access} className="h-12 rounded-full bg-hero-foreground px-7 text-hero-background hover:bg-hero-foreground/90">{t('cta')} <ArrowRight /></Button>
+        <Button asChild variant="glass" size="lg" className="h-12 rounded-full px-6"><Link to="/projects">{t('projects')}</Link></Button>
+      </div>
     </Reveal></section>
     <Footer />
   </main>;

@@ -29,7 +29,7 @@ export function AgataExperience({ children }: { children: ReactNode }) {
       </DialogContent>
     </Dialog>
     <aside className="companion fixed bottom-5 right-5 z-30">
-      {help && !hidden && <div className="glass mb-3 w-72 rounded-lg p-5">
+      {help && !hidden && <div className="fixed inset-x-3 top-20 rounded-lg border bg-card p-5 shadow-lg sm:static sm:mb-3 sm:w-72">
         <div className="flex items-center justify-between"><p className="text-sm font-medium">Need help?</p><Button variant="ghost" size="icon" aria-label="Close" onClick={() => setHelp(false)}><X /></Button></div>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">I'm here to assist you. Ágata is in development — here's what's coming.</p>
         <Button variant="ghost" asChild className="mt-3 w-full justify-start px-0 text-mineral"><Link to="/projects" onClick={() => setHelp(false)}>How projects work <ArrowRight /></Link></Button>
@@ -37,7 +37,7 @@ export function AgataExperience({ children }: { children: ReactNode }) {
         <Button variant="ghost" className="mt-3 h-7 px-0 text-xs text-muted-foreground" onClick={() => hide(true)}><EyeOff /> Hide mascot</Button>
       </div>}
       {hidden
-        ? <Button variant="outline" size="icon" className="float-right glass rounded-full" aria-label="Show mascot" title="Show mascot" onClick={() => hide(false)}><MessageCircle /></Button>
+        ? <Button variant="glass" size="icon" className="float-right rounded-full" aria-label="Show mascot" title="Show mascot" onClick={() => hide(false)}><MessageCircle /></Button>
         : <div className="flex items-end justify-end gap-1">
             <Button variant="ghost" size="icon" className="size-7 rounded-full text-muted-foreground" aria-label="Hide mascot" title="Hide mascot" onClick={() => hide(true)}><EyeOff className="size-3" /></Button>
             <Button variant="ghost" aria-label="Ask Ágata" title="Ask Ágata" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => setHelp(v => !v)} className="companion-bubble h-auto rounded-full p-0"><Mascot mood={mood} className="size-[72px]" /></Button>
