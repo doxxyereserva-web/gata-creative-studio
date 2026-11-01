@@ -33,7 +33,7 @@ function Home() {
           <p className="mt-6 max-w-sm text-base leading-relaxed text-hero-muted">{t('sub')}</p>
           <div className="mt-8 flex flex-wrap gap-3">
             <Button onClick={agata.access} className="h-12 rounded-full bg-hero-foreground px-6 text-hero-background hover:bg-hero-foreground/90">{t('cta')} <ArrowRight /></Button>
-            <Button asChild variant="glass" size="lg" className="rounded-full px-6"><Link to="/projects">{t('projects')}</Link></Button>
+            <Button asChild variant="glass" size="lg" className="h-12 rounded-full px-6"><Link to="/projects">{t('projects')}</Link></Button>
           </div>
         </motion.div>
       </div>

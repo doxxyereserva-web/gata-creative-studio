@@ -37,7 +37,7 @@ export function AgataExperience({ children }: { children: ReactNode }) {
         <Button variant="ghost" className="mt-3 h-7 px-0 text-xs text-muted-foreground" onClick={() => hide(true)}><EyeOff /> Hide mascot</Button>
       </div>}
       {hidden
-        ? <Button variant="outline" size="icon" className="float-right glass rounded-full" aria-label="Show mascot" title="Show mascot" onClick={() => hide(false)}><MessageCircle /></Button>
+        ? <Button variant="glass" size="icon" className="float-right rounded-full" aria-label="Show mascot" title="Show mascot" onClick={() => hide(false)}><MessageCircle /></Button>
         : <div className="flex items-end justify-end gap-1">
             <Button variant="ghost" size="icon" className="size-7 rounded-full text-muted-foreground" aria-label="Hide mascot" title="Hide mascot" onClick={() => hide(true)}><EyeOff className="size-3" /></Button>
             <Button variant="ghost" aria-label="Ask Ágata" title="Ask Ágata" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => setHelp(v => !v)} className="companion-bubble h-auto rounded-full p-0"><Mascot mood={mood} className="size-[72px]" /></Button>
