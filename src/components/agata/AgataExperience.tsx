@@ -29,7 +29,7 @@ export function AgataExperience({ children }: { children: ReactNode }) {
       </DialogContent>
     </Dialog>
     <aside className="companion fixed bottom-5 right-5 z-30">
-      {help && !hidden && <div className="glass mb-3 w-72 rounded-lg p-5">
+      {help && !hidden && <div className="mb-3 w-72 rounded-lg border bg-card p-5 shadow-lg">
         <div className="flex items-center justify-between"><p className="text-sm font-medium">Need help?</p><Button variant="ghost" size="icon" aria-label="Close" onClick={() => setHelp(false)}><X /></Button></div>
         <p className="mt-2 text-sm leading-relaxed text-muted-foreground">I'm here to assist you. Ágata is in development — here's what's coming.</p>
         <Button variant="ghost" asChild className="mt-3 w-full justify-start px-0 text-mineral"><Link to="/projects" onClick={() => setHelp(false)}>How projects work <ArrowRight /></Link></Button>
