@@ -1,38 +1,47 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { Link, useRouterState } from '@tanstack/react-router';
-import { ArrowRight, EyeOff, MessageCircle, Search, X } from 'lucide-react';
+import { ArrowRight, EyeOff, MessageCircle, X } from 'lucide-react';
+import { Link } from '@tanstack/react-router';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
-import type { Resource } from '@/lib/content';
-import { SearchDialog } from './SearchDialog';
-import { AgataMark, mascotImage } from './Logo';
-const Experience = createContext<{ search: () => void; preview: (r: Resource) => void; account: () => void }>({ search: () => {}, preview: () => {}, account: () => {} });
+import { useI18n } from '@/lib/i18n';
+import { Mascot, type Expression } from './Logo';
+
+const Experience = createContext<{ access: () => void }>({ access: () => {} });
 export const useAgata = () => useContext(Experience);
+
 export function AgataExperience({ children }: { children: ReactNode }) {
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [resource, setResource] = useState<Resource | null>(null);
-  const [accountOpen, setAccountOpen] = useState(false);
+  const { t } = useI18n();
+  const [accessOpen, setAccessOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [help, setHelp] = useState(false);
-  const path = useRouterState({ select: s => s.location.pathname });
+  const [hover, setHover] = useState(false);
   useEffect(() => { setHidden(localStorage.getItem('agata-mascot-hidden') === 'true'); }, []);
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); setSearchOpen(v => !v); } };
-    window.addEventListener('keydown', onKey); return () => window.removeEventListener('keydown', onKey);
-  }, []);
   const hide = (value: boolean) => { setHidden(value); setHelp(false); localStorage.setItem('agata-mascot-hidden', String(value)); };
-  return <Experience.Provider value={{ search: () => setSearchOpen(true), preview: setResource, account: () => setAccountOpen(true) }}>
+  const mood: Expression = help ? 'reading' : hover ? 'excited' : 'love';
+  return <Experience.Provider value={{ access: () => setAccessOpen(true) }}>
     {children}
-    <SearchDialog open={searchOpen} onClose={() => setSearchOpen(false)} onSelect={r => { setSearchOpen(false); setResource(r); }} />
-    <Dialog open={Boolean(resource)} onOpenChange={v => { if (!v) setResource(null); }}>
-      <DialogContent className="max-w-2xl overflow-hidden rounded-lg p-0">
-        {resource && <><img src={resource.image} alt={resource.name} className="aspect-[16/10] w-full object-cover" /><div className="p-7"><p className="mb-3 text-xs text-mineral">Collection preview</p><DialogTitle className="text-2xl">{resource.name}</DialogTitle><DialogDescription className="mt-3 leading-relaxed">{resource.description}</DialogDescription><p className="mt-5 text-xs text-muted-foreground">Sample resource · Downloads are not available.</p></div></>}
+    <Dialog open={accessOpen} onOpenChange={setAccessOpen}>
+      <DialogContent className="rounded-lg">
+        <Mascot mood="curious" className="size-20" />
+        <DialogTitle className="text-2xl font-normal">{t('access')}</DialogTitle>
+        <DialogDescription className="leading-relaxed">Ágata is still being built. Sign-up opens when the first workspaces are ready.</DialogDescription>
+        <p className="mt-2 inline-flex w-fit items-center gap-2 rounded-full bg-secondary px-3 py-1 text-xs text-mineral">{t('soon')}</p>
       </DialogContent>
     </Dialog>
-    <Dialog open={accountOpen} onOpenChange={setAccountOpen}><DialogContent className="rounded-lg"><AgataMark className="size-16" /><DialogTitle>Your creative space.</DialogTitle><DialogDescription>Accounts are not connected yet. You can explore the collection without signing in.</DialogDescription><Button onClick={() => { setAccountOpen(false); setSearchOpen(true); }} className="mt-3 rounded-full">Explore the collection <ArrowRight /></Button></DialogContent></Dialog>
     <aside className="companion fixed bottom-5 right-5 z-30">
-      {help && !hidden && <div className="glass mb-3 w-72 rounded-lg p-5"><div className="flex items-center justify-between"><p className="text-sm font-medium">A little inspiration?</p><Button variant="ghost" size="icon" aria-label="Close assistance" onClick={() => setHelp(false)}><X /></Button></div><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{path.includes('scripts') ? 'Build your next system. Explore the script collection.' : path.includes('vfx') ? 'Find the effect that brings your world to life.' : 'What will you create next?'}</p><Button variant="ghost" className="mt-3 w-full justify-start px-0 text-mineral" onClick={() => { setHelp(false); setSearchOpen(true); }}><Search /> Find a resource</Button><Button variant="ghost" asChild className="w-full justify-start px-0"><Link to="/$category" params={{ category: 'discover' }} onClick={() => setHelp(false)}>Explore all collections <ArrowRight /></Link></Button><Button variant="ghost" className="mt-3 h-7 px-0 text-xs text-muted-foreground" onClick={() => hide(true)}><EyeOff /> Hide mascot</Button></div>}
-      {hidden ? <Button variant="outline" size="icon" className="float-right rounded-full glass" aria-label="Restore mascot" title="Restore mascot" onClick={() => hide(false)}><MessageCircle /></Button> : <div className="flex items-end justify-end gap-1"><Button variant="ghost" size="icon" className="size-7 rounded-full text-muted-foreground" aria-label="Hide mascot" title="Hide mascot" onClick={() => hide(true)}><EyeOff className="size-3" /></Button><Button variant="ghost" aria-label="Ask Ágata" title="Ask Ágata" onClick={() => setHelp(v => !v)} className="h-auto rounded-full p-0"><img src={mascotImage} alt="" className="mascot-mark size-[72px] transition-transform hover:-translate-y-1" /></Button></div>}
+      {help && !hidden && <div className="glass mb-3 w-72 rounded-lg p-5">
+        <div className="flex items-center justify-between"><p className="text-sm font-medium">Need help?</p><Button variant="ghost" size="icon" aria-label="Close" onClick={() => setHelp(false)}><X /></Button></div>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">I'm here to assist you. Ágata is in development — here's what's coming.</p>
+        <Button variant="ghost" asChild className="mt-3 w-full justify-start px-0 text-mineral"><Link to="/projects" onClick={() => setHelp(false)}>How projects work <ArrowRight /></Link></Button>
+        <Button variant="ghost" asChild className="w-full justify-start px-0"><Link to="/workspaces" onClick={() => setHelp(false)}>Workspaces and teams <ArrowRight /></Link></Button>
+        <Button variant="ghost" className="mt-3 h-7 px-0 text-xs text-muted-foreground" onClick={() => hide(true)}><EyeOff /> Hide mascot</Button>
+      </div>}
+      {hidden
+        ? <Button variant="outline" size="icon" className="float-right glass rounded-full" aria-label="Show mascot" title="Show mascot" onClick={() => hide(false)}><MessageCircle /></Button>
+        : <div className="flex items-end justify-end gap-1">
+            <Button variant="ghost" size="icon" className="size-7 rounded-full text-muted-foreground" aria-label="Hide mascot" title="Hide mascot" onClick={() => hide(true)}><EyeOff className="size-3" /></Button>
+            <Button variant="ghost" aria-label="Ask Ágata" title="Ask Ágata" onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} onClick={() => setHelp(v => !v)} className="companion-bubble h-auto rounded-full p-0"><Mascot mood={mood} className="size-[72px]" /></Button>
+          </div>}
     </aside>
   </Experience.Provider>;
 }

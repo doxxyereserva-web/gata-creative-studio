@@ -1,32 +1,75 @@
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { ArrowRight, ArrowUpRight, Box, Code2, Search, Sparkles, Wrench } from 'lucide-react';
+import { motion, useReducedMotion } from 'framer-motion';
+import { ArrowRight, Languages } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { categories, images, resources } from '@/lib/content';
-import { Eyebrow, Footer, Reveal, ResourceCard } from '@/components/agata/primitives';
+import { Eyebrow, Footer, Reveal } from '@/components/agata/primitives';
+import { expressions, mascotImage, Mascot, type Expression } from '@/components/agata/Logo';
 import { useAgata } from '@/components/agata/AgataExperience';
-import { mascotImage } from '@/components/agata/Logo';
+import { LanguageSelect } from '@/components/agata/Nav';
+import { languages, useI18n } from '@/lib/i18n';
+import { projectModules, workspaceSpaces } from '@/lib/platform';
+
 export const Route = createFileRoute('/')({
- head: () => ({ meta: [{ title:'Ágata — Create beyond limits.' }, { name:'description', content:'A considered collection of scripts, visual effects, 3D models and development tools for Roblox creators.' }, { property:'og:title', content:'Ágata — Create beyond limits.' }, { property:'og:description', content:'Discover your next creative building block with Ágata.' }, { property:'og:type', content:'website' }, { name:'twitter:card', content:'summary_large_image' }] }), component: Home,
+  head: () => ({ meta: [
+    { title: 'Ágata — Create beyond limits' },
+    { name: 'description', content: 'Ágata is a Roblox development platform organised by projects, workspaces and teams — in development.' },
+    { property: 'og:title', content: 'Ágata — Create beyond limits' },
+    { property: 'og:description', content: 'A Roblox development platform organised by projects, workspaces and teams.' },
+    { property: 'og:type', content: 'website' },
+    { name: 'twitter:card', content: 'summary_large_image' },
+  ] }),
+  component: Home,
 });
-const icons = [Code2, Sparkles, Box, Wrench];
+
+const moods: Expression[] = ['love', 'excited', 'curious', 'reading', 'sleepy', 'peek'];
+const traits: Record<string, string> = { love: 'Greets you when you arrive.', excited: 'Celebrates when something ships.', curious: 'Asks before guessing.', reading: 'Explains guides and docs.', sleepy: 'Rests when you hide it.', peek: 'Always one click away.' };
+
 function Home() {
- const agata = useAgata(); const featured = resources[1]; const model = resources[2]; const script = resources[0];
- return <main>
-  <section className="hero-scene relative overflow-hidden">
-   <img src={mascotImage} alt="Ágata's original mineral-hooded companion" className="hero-mascot" fetchPriority="high" />
-   <div className="hero-shade" />
-   <div className="section-shell hero-content relative z-10">
-    <div className="hero-copy"><p className="mb-6 flex items-center gap-2 text-xs text-hero-muted"><span className="size-1.5 rounded-full bg-agate" /> A creative world. Yours to build.</p><h1 className="hero-title font-normal">Create beyond<br /><span className="text-hero-muted">limits.</span></h1><p className="mt-6 max-w-xs text-sm leading-relaxed text-hero-muted sm:text-base">Scripts, effects, models and tools.<br />For the worlds only you can imagine.</p><Button asChild className="mt-8 h-11 rounded-full bg-hero-foreground px-6 text-hero-background hover:bg-hero-foreground/90"><Link to="/$category" params={{ category:'discover' }}>Explore the collection <ArrowRight /></Link></Button></div>
-    <div className="hero-bottom flex items-center justify-between border-t border-hero-foreground/15 pt-5 text-xs text-hero-muted"><span>Ágata / For Roblox creators</span><span className="hidden sm:block">Thoughtful resources. Limitless possibilities.</span><ArrowUpRight className="size-4" /></div>
-   </div>
-  </section>
-  <section className="section-shell py-9 sm:py-12"><div className="flex flex-col gap-6 border-b pb-9 sm:flex-row sm:items-center sm:justify-between"><p className="max-w-sm text-lg leading-relaxed">Your next idea starts<br /><span className="text-muted-foreground">with the right building block.</span></p><Button variant="outline" onClick={agata.search} className="h-12 w-full justify-between rounded-full border-foreground/10 bg-card px-5 text-muted-foreground sm:w-96"><span className="flex items-center gap-3"><Search className="text-mineral" /> What do you want to create?</span><ArrowRight /></Button></div><div className="grid grid-cols-2 gap-y-7 pt-8 sm:grid-cols-4">{categories.map((c,i) => { const Icon = icons[i] ?? Wrench; return <Link key={c.slug} to="/$category" params={{ category:c.slug }} className="group flex items-center gap-3"><Icon className="size-5 text-mineral transition-transform group-hover:-translate-y-1" strokeWidth={1.4} /><span className="text-xs sm:text-sm">{c.label}</span><ArrowUpRight className="size-3 text-muted-foreground" /></Link>; })}</div></section>
-  <section className="section-shell py-12 sm:py-16"><Reveal className="mb-9 flex items-end justify-between gap-5"><div><Eyebrow>The Ágata selection</Eyebrow><h2 className="section-title mt-3">A little extraordinary.</h2></div><Button asChild variant="ghost" size="icon" className="rounded-full" aria-label="View all resources"><Link to="/$category" params={{ category:'discover' }}><ArrowUpRight /></Link></Button></Reveal><div className="grid gap-5 lg:grid-cols-[1.45fr_1fr]">
-   {featured && <Reveal><Button variant="ghost" onClick={() => agata.preview(featured)} className="feature-effect group relative block h-full min-h-96 w-full overflow-hidden rounded-lg p-0 text-left"><img src={images.vfx} alt="Ember Vortex visual effect preview" className="absolute inset-0 size-full object-cover transition-transform duration-1000 group-hover:scale-[1.035]" /><div className="feature-shade absolute inset-0" /><div className="absolute inset-x-0 bottom-0 p-7 sm:p-9"><p className="text-xs text-hero-muted">Visual effects / Collection preview</p><h3 className="mt-3 text-3xl font-normal text-hero-foreground">Light. With a life of its own.</h3><div className="mt-5 flex items-center justify-between text-sm text-hero-foreground"><span>Ember Vortex</span><ArrowUpRight /></div></div></Button></Reveal>}
-   <div className="grid gap-5">{model && <Reveal><Button variant="ghost" onClick={() => agata.preview(model)} className="group grid h-auto w-full grid-cols-[1fr_1.15fr] overflow-hidden whitespace-normal rounded-lg bg-card p-0 text-left"><div className="p-6"><p className="text-xs text-mineral">3D Models</p><h3 className="mt-4 text-xl font-medium">Worlds take shape.</h3><p className="mt-4 text-xs font-normal text-muted-foreground">Outpost Modular</p><ArrowUpRight className="mt-6" /></div><img src={images.model} alt="Outpost Modular model render" className="h-full min-h-56 w-full object-cover" /></Button></Reveal>}{script && <Reveal><Button variant="ghost" onClick={() => agata.preview(script)} className="group block h-auto w-full whitespace-normal rounded-lg border bg-card p-6 text-left"><div className="flex items-center justify-between"><p className="text-xs text-mineral">Scripts / Strata Combat Kit</p><ArrowUpRight /></div><h3 className="mt-4 text-xl font-medium">The invisible craft.</h3><pre className="mt-5 overflow-hidden border-l-2 border-mineral/30 pl-4 font-mono text-xs leading-6 text-muted-foreground">{'local Strata = require(Kit)\nStrata.hitbox(tool, {\n  shape = "Capsule",\n}):onHit(applyDamage)'}</pre></Button></Reveal>}</div>
-  </div></section>
-  <section className="collection-band mt-8 py-16 sm:py-20"><div className="section-shell"><Reveal><Eyebrow>Explore the disciplines</Eyebrow><h2 className="section-title mt-3">Made for your imagination.</h2></Reveal><div className="mt-9 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">{categories.map((c,i) => <Reveal key={c.slug} delay={i*.05}><Link to="/$category" params={{ category:c.slug }} className="group block"><div className="aspect-[4/3] overflow-hidden rounded-lg bg-muted"><img src={c.image} alt={`${c.label} collection preview`} loading="lazy" className="size-full object-cover transition-transform duration-700 group-hover:scale-105" /></div><div className="mt-4 flex items-center justify-between"><h3 className="text-lg">{c.label}</h3><ArrowUpRight className="size-4 text-mineral" /></div><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{c.blurb}</p></Link></Reveal>)}</div></div></section>
-  <section className="section-shell py-16 sm:py-20"><Reveal className="flex items-end justify-between gap-5"><div><Eyebrow>From the collection</Eyebrow><h2 className="section-title mt-3">More to make your own.</h2></div><Button asChild variant="ghost" className="hidden rounded-full text-xs sm:inline-flex"><Link to="/$category" params={{ category:'discover' }}>View collection <ArrowRight /></Link></Button></Reveal><p className="mt-4 text-xs text-muted-foreground">Sample collection. Resource details and availability are not verified.</p><div className="mt-9 grid gap-x-7 gap-y-10 sm:grid-cols-2 lg:grid-cols-3">{resources.map((r,i) => <ResourceCard key={r.id} r={r} index={i} />)}</div></section>
-  <Footer />
- </main>;
+  const { t } = useI18n(); const agata = useAgata(); const reduced = useReducedMotion();
+  return <main>
+    <section className="hero-scene relative overflow-hidden">
+      <img src={mascotImage} alt="Ágata, the hooded mascot, holding an agate crystal" className="hero-mascot" />
+      <div className="hero-shade" />
+      <div className="section-shell hero-content relative">
+        <motion.div className="hero-copy max-w-xl" initial={reduced ? false : { opacity: 0, y: 24 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: .9 }}>
+          <p className="text-xs text-hero-muted">{t('eyebrow')}</p>
+          <h1 className="hero-title mt-6 font-normal">{t('title1')}<br />{t('title2')}</h1>
+          <p className="mt-6 max-w-sm text-base leading-relaxed text-hero-muted">{t('sub')}</p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Button onClick={agata.access} className="h-12 rounded-full bg-hero-foreground px-6 text-hero-background hover:bg-hero-foreground/90">{t('cta')} <ArrowRight /></Button>
+            <Button asChild variant="ghost" className="h-12 rounded-full px-6 text-hero-foreground hover:bg-hero-foreground/10 hover:text-hero-foreground"><Link to="/projects">{t('projects')}</Link></Button>
+          </div>
+        </motion.div>
+        <div className="hero-bottom flex items-center justify-between text-xs text-hero-muted"><span>{t('soon')} · 2026</span><span>Agate · Ágata</span></div>
+      </div>
+    </section>
+
+    <section className="section-shell py-28">
+      <div className="grid gap-12 lg:grid-cols-[1fr_1.4fr] lg:items-center">
+        <Reveal><Eyebrow>{t('mascot')}</Eyebrow><h2 className="section-title mt-4">Your creative companion.</h2><p className="mt-5 max-w-md leading-relaxed text-muted-foreground">Friendly, curious, creative and helpful. Ágata lives in the corner of every page, reacts to what you do, and steps aside when you need focus.</p>
+          <div className="mt-8 flex flex-wrap gap-2">{(['success', 'alert'] as const).map(m => <span key={m} className="glass flex items-center gap-3 rounded-full py-1.5 ps-1.5 pe-4 text-xs"><Mascot mood={m} className="size-8" />{m === 'success' ? 'All set!' : 'Something went wrong. Try again later.'}</span>)}</div>
+        </Reveal>
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">{moods.map((m, i) => <Reveal key={m} delay={i * .05}><figure className="mascot-tile rounded-lg p-4 text-center"><img src={expressions[m].src} alt={`Ágata — ${expressions[m].label}`} className="mx-auto aspect-square w-full max-w-36 rounded-md object-cover" /><figcaption className="mt-3 text-sm font-medium">{expressions[m].label}</figcaption><p className="mt-1 text-xs text-muted-foreground">{traits[m]}</p></figure></Reveal>)}</div>
+      </div>
+    </section>
+
+    <section className="collection-band py-28"><div className="section-shell">
+      <Reveal><Eyebrow>{t('projects')}</Eyebrow><h2 className="section-title mt-4 max-w-2xl">Everything is a project. Every project is complete.</h2><p className="mt-5 max-w-xl leading-relaxed text-muted-foreground">Each project on Ágata is organised into the same six parts, so you always know where to look.</p></Reveal>
+      <div className="mt-14 grid gap-px overflow-hidden rounded-lg border bg-border sm:grid-cols-2 lg:grid-cols-3">{projectModules.map((m, i) => <Reveal key={m.title} delay={(i % 3) * .05} className="bg-background p-8"><div className="flex items-center justify-between"><m.icon className="size-5 text-mineral" /><span className="font-mono text-xs text-muted-foreground">0{i + 1}</span></div><h3 className="mt-8 text-lg font-medium">{m.title}</h3><p className="mt-2 text-sm leading-relaxed text-muted-foreground">{m.text}</p></Reveal>)}</div>
+      <Button asChild variant="ghost" className="mt-8 px-0 text-mineral"><Link to="/projects">How projects work <ArrowRight /></Link></Button>
+    </div></section>
+
+    <section className="section-shell py-28"><div className="grid gap-14 lg:grid-cols-2">
+      <Reveal><Eyebrow>{t('workspaces')}</Eyebrow><h2 className="section-title mt-4">Spaces for the way you work.</h2><p className="mt-5 max-w-md leading-relaxed text-muted-foreground">From a solo builder to a full studio — workspaces, teams and roles keep projects organised.</p><Button asChild variant="ghost" className="mt-6 px-0 text-mineral"><Link to="/workspaces">Explore workspaces <ArrowRight /></Link></Button></Reveal>
+      <div className="divide-y border-y">{workspaceSpaces.map(s => <div key={s.title} className="flex gap-5 py-6"><s.icon className="mt-1 size-5 shrink-0 text-mineral" /><div><h3 className="font-medium">{s.title}</h3><p className="mt-1 text-sm text-muted-foreground">{s.text}</p></div></div>)}</div>
+    </div></section>
+
+    <section className="section-shell"><Reveal className="glass flex flex-col gap-8 rounded-lg p-10 sm:p-14 lg:flex-row lg:items-center lg:justify-between">
+      <div><Languages className="size-6 text-mineral" /><h2 className="section-title mt-5">{languages.length} languages, automatically.</h2><p className="mt-4 max-w-md leading-relaxed text-muted-foreground">Ágata opens in the language of your region. You can change it at any time.</p></div>
+      <LanguageSelect className="w-fit rounded-full border" />
+    </Reveal></section>
+
+    <section className="section-shell py-28 text-center"><Reveal><Mascot mood="peek" className="mx-auto size-24" /><h2 className="section-title mx-auto mt-6 max-w-lg">Be there when it opens.</h2><Button onClick={agata.access} className="mt-8 h-12 rounded-full px-7">{t('cta')} <ArrowRight /></Button></Reveal></section>
+    <Footer />
+  </main>;
 }
